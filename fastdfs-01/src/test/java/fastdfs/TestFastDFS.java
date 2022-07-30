@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * @author zhuicat
@@ -33,9 +35,11 @@ public class TestFastDFS {
         // 参数1：上传文件的本地路径 参数2：上传文件的扩展名 参数3：上传文件的元数据
         NameValuePair[] nameValuePairs = new NameValuePair[]{
                 new NameValuePair("originFileName","a.txt"),
-                new NameValuePair("upload_author","lyx")
-
+                new NameValuePair("upload_author","lyx"),
+                new NameValuePair("description",URLEncoder.encode("中文会乱码--解决方式编码","utf-8"))
         };
+
+
 
         // 上传文件
         String[] txts = storageClient.upload_file("J:/img/a.txt", "txt", nameValuePairs);
@@ -83,9 +87,9 @@ public class TestFastDFS {
 
         StorageClient storageClient = new StorageClient(trackerServer, null);
 
-        NameValuePair[] nameValuePairs = storageClient.get_metadata("group1", "M00/00/00/wKhYgGLkwgKAG2F1AAAAD_c9pqA881.txt");
+        NameValuePair[] nameValuePairs = storageClient.get_metadata("group1", "M00/00/00/wKhYgGLk0hSASMe3AAAAD_c9pqA456.txt");
         for (NameValuePair nameValuePair : nameValuePairs) {
-            System.out.println(nameValuePair.getName() + "=>"+nameValuePair.getValue());
+            System.out.println(nameValuePair.getName() +"=>"+ URLDecoder.decode(nameValuePair.getValue(),"UTF-8"));
         }
     }
 
